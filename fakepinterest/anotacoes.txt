@@ -1,0 +1,75 @@
+Sempre crie uma env
+primeiro criei um arquivo chamado main.py
+Para esse projeto vamos usar o rramework FLASK
+
+Criando o nosso servidor local e pondo ele no ar
+
+debug=True >>>> vai atualizar qualquer mudança que fixer no
+ códifo sm precisar rodar ele toda vez que fixer alguma alteração
+
+Voce precida criar uma pasta'directory' chamada "templates"
+pois o redner_template do Flask vasi procurar pra acessar
+
+criando um perfil dinamico com base no perfil do usuario
+
+url_for = permite que vc pegue a url de acordo com a função/def
+
+fique atento  na hora de passar as aspas nod parametros -> <a href="{{url_for('homepage')}}">Sair</a>
+
+
+o Flask utiliza uma page html como base e podemos reutilizar-la com
+ {% block título %} entre outros parametros dentro dele
+para deixar o código mais limpo
+    EX:
+        {% extends "homepage.html" %}
+
+{% block título %}
+Perfil - {{ usuario }}
+{% endblock %}
+
+{% block body %}
+<body>
+
+<h1>Perfil do usuário: {{ usuario }}</h1>
+
+<a href="{{ url_for('homepage') }}">Sair</a>
+
+</body>
+{% endblock %}
+
+o FLASK precisa ter um arquivo chamado "__init__"
+esse arquivo
+
+para criar nosso banco de dados, vamos importar do flask o "sqlalchemy"
+primeiro vc precisa instrar no nosso ambiente virtual
+>pip install flask-sqlalchemy
+
+
+CRIANDO NOSSO BANCO DE DADOS
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+from fakepinterest import routes
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite///comunidade.db"
+
+
+database = SQLAlchemy(app)
+
+
+no arquivo models.py vamos criar classe do usuario onde nosso banco de dados
+possa entender
+ EX:class usuario(database.Model):
+    id = database.Column(database.Integer, primary_key=True)
+    username = database.Column(database.String, nullable=False)
+    email = database.Column(database.String, nullable=False, unique=True)
+    senha = database.Column(database.String, nullable=False)
+    fotos = database.relationship()
+
+inuque=False na variavel email nao vai permitir o usuario cirar mais de uma conta com os mesmo email
+
+CRIANDO UM GERENCIADOR DE SENHA E LOGIN
+no terminal
+pip install flask-login flask-bcrypt
+
